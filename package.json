@@ -1,0 +1,86 @@
+{
+  "private": true,
+  "name": "babel-starter-kit",
+  "version": "0.0.0",
+  "description": "A project template for authoring and publishing JavaScript libraries",
+  "homepage": "https://www.kriasoft.com/babel-starter-kit/",
+  "repository": "kriasoft/babel-starter-kit",
+  "author": "Kriasoft <hello@kriasoft.com> (https://www.kriasoft.com)",
+  "contributors": [
+    "Konstantin Tarkus <hello@tarkus.me>",
+    "Vladimir Kutepov <frenzzy.man@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [],
+  "main": "index.js",
+  "jsnext:main": "index.es6.js",
+  "babel": {
+    "presets": [
+      "latest",
+      "stage-0"
+    ],
+    "plugins": [
+      "transform-runtime"
+    ]
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": "airbnb-base",
+    "rules": {
+      "new-cap": "off",
+      "no-prototype-builtins": "off",
+      "no-console": "off",
+      "no-underscore-dangle": "off"
+    }
+  },
+  "dependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-runtime": "^6.11.6",
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.4",
+    "express": "^4.15.4",
+    "isomorphic-fetch": "^2.2.1",
+    "lodash": "^4.17.4",
+    "mongoose": "^4.11.8",
+    "mongoose-auto-increment": "^5.0.1",
+    "nodemon": "^1.11.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.16.0",
+    "babel-core": "^6.17.0",
+    "babel-eslint": "^7.0.0",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-preset-latest": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "babel-register": "^6.16.3",
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.14",
+    "del": "^2.2.2",
+    "eslint": "^3.8.0",
+    "eslint-config-airbnb-base": "^8.0.0",
+    "eslint-plugin-import": "^1.16.0",
+    "istanbul": "^1.1.0-alpha.1",
+    "mocha": "^3.1.2",
+    "rollup": "^0.36.3",
+    "rollup-plugin-babel": "^2.6.1",
+    "sinon": "^2.0.0-pre.3",
+    "in-publish": "2.0.0"
+  },
+  "scripts": {
+    "lint": "eslint src test tools",
+    "test": "mocha --compilers js:babel-register",
+    "test:watch": "mocha --compilers js:babel-register --reporter min --watch",
+    "test:cover": "babel-node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "kriasoft-build": "node tools/build",
+    "publish:docs": "easystatic deploy docs --repo kriasoft/babel-starter-kit",
+    "babel-build": "babel src --out-dir dist --source-maps inline --copy-files",
+    "build": "npm run babel-build && npm run kriasoft-build",
+    "dev": "npm run kriasoft-build && npm run babel-build -- --watch",
+    "dev2": "nodemon --exec babel-node -- src/index.js",
+    "test2": "nodemon --exec babel-node -- src/test.js",
+    "prepublish": "in-publish && npm run build || echo 'Have any questions? ask @isuvorov :)'",
+    "start": "easystatic start docs"
+  }
+}
