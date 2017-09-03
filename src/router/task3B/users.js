@@ -36,9 +36,8 @@ router.get('/(:id(\\d+)|:username([^/]+)):showPets(/pets)?:populate(/populate)?'
   const userSearchParams = {};
   const petsSearchParams = {};
   const sort = 'id';
-  let result;
   try {
-    // query params
+    // by username
     if (username) {
       const user = await User.findOne({ username }, null, { sort });
       if (!user) {
@@ -47,9 +46,11 @@ router.get('/(:id(\\d+)|:username([^/]+)):showPets(/pets)?:populate(/populate)?'
       userSearchParams.username = username;
       petsSearchParams.userId = user.id;
     } else {
+    // by id
       userSearchParams.id = id;
       petsSearchParams.userId = id;
     }
+    let result;
     // request to db
     if (!showPets) {
       result = User.findOne(userSearchParams, null, { sort });
@@ -59,21 +60,18 @@ router.get('/(:id(\\d+)|:username([^/]+)):showPets(/pets)?:populate(/populate)?'
           options: { sort },
         });
       }
-      result = await result;
-      if (!result) {
-        return next(new Error('user not found'));
-      }
     } else {
-      result = await Pet.find(petsSearchParams, null, { sort });
-      if (!result) {
-        return next(new Error('pets  not found'));
-      }
+      result = Pet.find(petsSearchParams, null, { sort });
     }
+    result = await result;
+    if (!result) {
+      return next(new Error('not found'));
+    }
+    // send result
+    return res.json(result);
   } catch (e) {
     return next(e);
   }
-  // send result
-  return res.json(result);
 });
 
 export default router;

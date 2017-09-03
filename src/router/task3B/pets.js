@@ -12,6 +12,7 @@ router.get('/:populate(populate)?', async (req, res, next) => {
     age_gt: ageGt,
     age_lt: ageLt,
   } = query;
+  const sort = 'id';
   // query params
   const petsSearchParams = {};
   if (type) {
@@ -24,36 +25,32 @@ router.get('/:populate(populate)?', async (req, res, next) => {
     petsSearchParams.age = { ...petsSearchParams.age, $lt: ageLt };
   }
   // result
-  let pets;
   try {
-    pets = Pet.find(petsSearchParams);
-    // populate
-    if (populate) {
-      pets = pets.populate('user');
+    const pets = (populate)
+      ? await Pet.find(petsSearchParams, null, { sort }).populate('user')
+      : await Pet.find(petsSearchParams, null, { sort });
+    if (!pets) {
+      return next(new Error('pets not found'));
     }
-    pets = await pets.sort('id');
+    return res.json(pets);
   } catch (e) {
     return next(e);
   }
-  return res.json(pets);
 });
 
 router.get('/:id:populate(/populate)?', async (req, res, next) => {
   const { id, populate } = req.params;
-  let pet;
   try {
-    pet = Pet.findOne({ id });
-    if (populate) {
-      pet = pet.populate('user');
+    const pet = (populate)
+      ? await Pet.findOne({ id }).populate('user')
+      : await Pet.findOne({ id });
+    if (!pet) {
+      return next(new Error('pet not found'));
     }
-    pet = await pet;
+    return res.json(pet);
   } catch (e) {
     return next(e);
   }
-  if (!pet) {
-    return next(new Error('pet not found'));
-  }
-  return res.json(pet);
 });
 
 export default router;
