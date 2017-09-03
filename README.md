@@ -122,6 +122,7 @@ the [LICENSE.txt](https://github.com/kriasoft/react-starter-kit/blob/master/LICE
 The documentation to the project is licensed under the [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)
 license.
 
-
 ---
 Made with ♥ by Konstantin Tarkus ([@koistya](https://twitter.com/koistya)) and [contributors](https://github.com/kriasoft/babel-starter-kit/graphs/contributors)
+
+state 2
