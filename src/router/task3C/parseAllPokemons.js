@@ -1,8 +1,8 @@
 import fetch from 'isomorphic-fetch';
 import _ from 'lodash';
 
-import StatPokemons from '../models/StatPokemons';
-import Pokemon from '../models/Pokemon';
+import StatPokemons from '../../models/StatPokemons';
+import Pokemon from '../../models/Pokemon';
 
 const baseUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=50';
 const delayPage = 2000;

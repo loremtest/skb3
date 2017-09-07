@@ -1,7 +1,7 @@
 import express from 'express';
 
 import parseAllPokemons from './parseAllPokemons';
-import Pokemon from '../models/Pokemon';
+import Pokemon from '../../models/Pokemon';
 
 const router = express.Router();
 

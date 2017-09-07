@@ -45,11 +45,12 @@ UserSchema.virtual('pets', {
   justOne: false,
 });
 
-UserSchema.methods.toJSON = function pick() {
-  const result = _.pick(this, ['id', 'username', 'fullname', 'password', 'values', 'pets']);
-  return _.pickBy(result, (value, key) => !(key === 'pets' && value === null));
-};
+class UserClass {
+  toJSON() {
+    const result = _.pick(this, ['id', 'username', 'fullname', 'password', 'values', 'pets']);
+    return _.pickBy(result, (value, key) => !(key === 'pets' && value === null));
+  }
+}
 
-// UserSchema.set('toJSON', { getters: true, virtuals: true });
-
+UserSchema.loadClass(UserClass);
 export default mongoose.model('User', UserSchema);

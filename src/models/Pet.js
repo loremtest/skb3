@@ -6,25 +6,26 @@ autoIncrement.initialize(mongoose.connection);
 
 const { Schema } = mongoose;
 
-const PetSchema = new Schema({
-  userId: {
-    type: Number,
-    required: true,
+const PetSchema = new Schema(
+  {
+    userId: {
+      type: Number,
+      required: true,
+    },
+    type: {
+      type: String,
+      enum: ['cat', 'dog', 'rat'],
+      required: true,
+    },
+    color: {
+      type: String,
+      required: true,
+    },
+    age: {
+      type: Number,
+      required: true,
+    },
   },
-  type: {
-    type: String,
-    enum: ['cat', 'dog', 'rat'],
-    required: true,
-  },
-  color: {
-    type: String,
-    required: true,
-  },
-  age: {
-    type: Number,
-    required: true,
-  },
-},
   {
     timestamps: true,
   });
@@ -40,9 +41,12 @@ PetSchema.virtual('user', {
   justOne: true,
 });
 
-PetSchema.methods.toJSON = function pick() {
-  const result = _.pick(this, ['id', 'userId', 'type', 'color', 'age', 'user']);
-  return _.pickBy(result, (value, key) => !(key === 'user' && value === null));
-};
+class PetClass {
+  toJSON() {
+    const result = _.pick(this, ['id', 'userId', 'type', 'color', 'age', 'user']);
+    return _.pickBy(result, (value, key) => !(key === 'user' && value === null));
+  }
+}
 
+PetSchema.loadClass(PetClass);
 export default mongoose.model('Pet', PetSchema);

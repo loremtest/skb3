@@ -21,6 +21,14 @@ const StatPokemonsSchema = new Schema(
   });
 
 class StatPokemonsClass {
+  static updatePageUrl(pageUrl) {
+    return this.findOneAndUpdate(
+      {},
+      { pageUrl },
+      { new: true, upsert: true },
+    );
+  }
+
   static updateTotal(total) {
     return this.findOneAndUpdate(
       {},
@@ -33,14 +41,6 @@ class StatPokemonsClass {
     return this.findOneAndUpdate(
       {},
       { $inc: { success } },
-      { new: true, upsert: true },
-    );
-  }
-
-  static updatePageUrl(pageUrl) {
-    return this.findOneAndUpdate(
-      {},
-      { pageUrl },
       { new: true, upsert: true },
     );
   }
