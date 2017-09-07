@@ -18,7 +18,7 @@ async function getPokemon(url) {
 
   const existsPokemon = await Pokemon.findOne({ url });
   if (existsPokemon) {
-    return null;
+    return false;
   }
 
   const response = await fetch(url);

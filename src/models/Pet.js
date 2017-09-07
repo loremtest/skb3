@@ -27,8 +27,6 @@ const PetSchema = new Schema({
 },
   {
     timestamps: true,
-    // toObject: { virtuals: true },
-    // toJSON: { virtuals: true },
   });
 
 PetSchema.plugin(autoIncrement.plugin, { model: 'Pet', field: 'id' });

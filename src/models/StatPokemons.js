@@ -20,32 +20,35 @@ const StatPokemonsSchema = new Schema(
     timestamps: true,
   });
 
-StatPokemonsSchema.statics.updateTotal = function updateTotalNeed(total) {
-  return mongoose.model(modelName).findOneAndUpdate(
-    {},
-    { total },
-    { new: true, upsert: true },
-  );
-};
+class StatPokemonsClass {
+  static updateTotal(total) {
+    return this.findOneAndUpdate(
+      {},
+      { total },
+      { new: true, upsert: true },
+    );
+  }
 
-StatPokemonsSchema.statics.updateSuccess = function updateSuccessCount(success) {
-  return mongoose.model(modelName).findOneAndUpdate(
-    {},
-    { $inc: { success } },
-    { new: true, upsert: true },
-  );
-};
+  static updateSuccess(success) {
+    return this.findOneAndUpdate(
+      {},
+      { $inc: { success } },
+      { new: true, upsert: true },
+    );
+  }
 
-StatPokemonsSchema.statics.updatePageUrl = function updatePageUrl(pageUrl) {
-  return mongoose.model(modelName).findOneAndUpdate(
-    {},
-    { pageUrl },
-    { new: true, upsert: true },
-  );
-};
+  static updatePageUrl(pageUrl) {
+    return this.findOneAndUpdate(
+      {},
+      { pageUrl },
+      { new: true, upsert: true },
+    );
+  }
 
-StatPokemonsSchema.methods.toJSON = function toJSON() {
-  return _.pick(this, ['pageUrl', 'success']);
-};
+  toJSON() {
+    return _.pick(this, ['pageUrl', 'success']);
+  }
+}
 
+StatPokemonsSchema.loadClass(StatPokemonsClass);
 export default mongoose.model(modelName, StatPokemonsSchema);
